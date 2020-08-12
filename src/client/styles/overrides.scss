@@ -19,9 +19,15 @@
 }
 
 .btn-primary {
-    color: #fff;
+    color: #333333;
     background-color: #89CFF0;
-    border-color: #89CFF0;
+    border: none;
+    &:hover{
+        background-color: #2a9df4;
+    }
+    &:active{
+        transform: translateY(2px);
+    }
 }
 
 .navbar {
