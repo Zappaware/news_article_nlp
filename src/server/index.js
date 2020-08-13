@@ -29,6 +29,68 @@ app.get('/test', function (req, res) {
 
 const application_key = process.env.API_KEY;
 
-app.get('/api', function (request, response) {
-    response.send({key: application_key});
-})
+// app.get('/api', function (request, response) {
+//     response.send({key: application_key});
+// })
+
+
+
+let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
+let input = document.getElementById('text-entry').value;
+
+const inputButton = document.getElementById('input-button');
+inputButton.addEventListener('click', performAction);
+
+function performAction () {
+    console.log('HEHEHEHEH');
+
+    getApiKey()
+    .then(function(data){
+        let myData = {
+            key: data.key,
+            lang: 'en',
+            url: formText
+        }
+    })
+
+    getTextAnalysis(baseURL, myData.key, input)
+    .then(function(data){
+        document.getElementById('results').innerHTML = data.agreement;
+    })
+}
+
+// API Call
+const getTextAnalysis = async (baseURL, apiKey, input) => {
+
+    const response = await fetch(baseURL+apiKey+'&of'+input.json());
+    try {
+        const textData = response.json();
+        return textData;
+    }catch(error) {
+        console.log('ERROR', error);
+    }
+}
+
+
+const getApiKey = async () => {
+    const request = await fetch('/api');
+    try {
+        const api_key = await request.json();
+        console.log(api_key);
+        return api_key;
+    }catch(error) {
+        console.log('ERROR', error);
+    }
+}
+
+
+
+// console.log(checkForName);
+
+// alert("I EXIST")
+// console.log("CHANGE!!");
+
+// export {
+//     checkForName,
+//     handleSubmit
+// }
