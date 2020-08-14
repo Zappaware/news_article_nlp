@@ -1,16 +1,91 @@
+import { response } from "express";
+
+let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
+
 function handleSubmit(event) {
     event.preventDefault()
 
     // check what text was put into the form field
-    let formText = document.getElementById('name').value
-    Client.checkForName(formText)
+    let formText = document.getElementById('text-entry').value
 
     console.log("::: Form Submitted :::")
-    fetch('http://localhost:8081/test')
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
+
+    getApiKey()
+    .then(function(data){
+        let myData = {
+            key: data.key,
+            lang: 'en',
+            url: formText
+        }
     })
+
+    const getApiKey = async () => {
+        const request = await fetch('/api');
+        try {
+            const data = await request.json();
+            console.log(data);
+            return data;
+        }catch(error) {
+            console.log('ERROR', error);
+        }
+    }
+
+    getTextAnalysis(baseURL, myData.key, input)
+    .then(function(data) {
+        postData('/addText', {
+            agreement: data.agreement,
+            sub: data.subjectivity
+        })
+    })
+    .then(function() {
+        updateUI();
+    })
+    
+
+
+    // API Call
+    const getTextAnalysis = async (baseURL, apiKey, input) => {
+
+        const response = await fetch(baseURL+apiKey+'&of'+input.json());
+        try {
+            const textData = response.json();
+            return textData;
+        }catch(error) {
+            console.log('ERROR', error);
+        }
+    }
+
+    // POST request to server
+    const postData = async (url = '', data = {}) => {
+
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        try {
+            const newData = await response.json();
+        }catch(error) {
+            console.log('error', error);
+        }
+    }
+
+    const updateUI = async () => {
+        const request = await fetch('/all');
+        try {
+            const allData = await response.json();
+            console.log(allData);
+        }catch(error){
+            console.log('error', error);
+        }
+        console.log('AFTER GET');
+    }
+
 }
+
 
 export { handleSubmit }
