@@ -1,7 +1,7 @@
 import { response } from "express";
 
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
-let apiKey = '';
+let apiKey = {};
 
 function handleSubmit(event) {
     event.preventDefault()
@@ -17,6 +17,7 @@ function handleSubmit(event) {
     })
 
     const getApiKey = async () => {
+        // Getting API key from server
         const request = await fetch('/api');
         try {
             const data = await request.json();
@@ -43,7 +44,7 @@ function handleSubmit(event) {
     // API Call
     const getTextAnalysis = async (baseURL, apiKey, input) => {
 
-        const response = await fetch(baseURL+apiKey+'&of'+input);
+        const response = await fetch(baseURL+apiKey+'&of='+input);
         try {
             const textData = response.json();
             return textData;

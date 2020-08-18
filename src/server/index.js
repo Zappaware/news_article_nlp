@@ -5,11 +5,13 @@ var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js');
 const { fileURLToPath } = require('url');
-const { text } = require('body-parser');
+const text = require('body-parser');
 
 const app = express()
 
 app.use(express.static('dist'))
+app.use(text.urlencoded({ extended: false }))
+app.use(text.json())
 
 console.log(__dirname)
 
@@ -28,8 +30,8 @@ app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
+app.get('/test', function (request, response) {
+    response.send(mockAPIResponse);
 })
 
 const application_key = process.env.API_KEY;
