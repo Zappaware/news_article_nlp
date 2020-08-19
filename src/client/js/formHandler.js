@@ -6,8 +6,20 @@ let apiKey = {};
 function handleSubmit(event) {
     event.preventDefault()
 
-    // check what text was put into the form field
-    let formText = document.getElementById('text-entry').value
+    let formText = document.getElementById('text-entry').value;
+
+    postData('/userInput', {
+        userInput: formText
+    })
+
+    
+
+
+
+
+
+
+    
 
     console.log("::: Form Submitted :::")
 

@@ -20,37 +20,90 @@ app.get('/', function (req, res) {
     // res.sendFile(path.resolve('src/client/views/index.html'))
 })
 
-
-
-// Empty JS object
-let dataMain = {}
-
 // designates what port the app will listen to for incoming requests
 app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
+
 app.get('/test', function (request, response) {
     response.send(mockAPIResponse);
 })
 
+
+// API work below
+
+// Empty JS object
+let newInput = {};
+let projectData = {};
+let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
+
 const application_key = process.env.API_KEY;
 
-app.get('/api', function (request, response) {
-    response.send({key: application_key});
+// Posting user response from client to server
+app.post('/userInput', function (request, response) {
+    newInput = {
+        userInput: request.userInput
+    }
 })
 
-app.get('/all', sendData);
 
-function sendData (request, response) {
-    response.send(dataMain);
+
+getTextAnalysis(baseURL, application_key, newInput.userInput)
+.then(function(data) {
+    const response = await fetch('/addTextData',{
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    try {
+        newData = await response.json();
+    }catch(error) {
+        console.log('error', error);
+    }
+})
+
+const getTextAnalysis = async (baseURL, apiKey, input) => {
+
+    const response = await fetch(baseURL+apiKey+'&of'+input);
+    try {
+        const newText = response.json();
+        return newText;
+    }catch(error) {
+        console.log('ERROR', error);
+    }
 }
 
-app.post('/addText', function (request, response) {
+// Posting API results
+app.post('/addTextData', function (request, response) {
     let newEntry = {
         agreement: request.body.agreement,
-        subjectivity: request.body.subjectivity
     }
-    dataMain = newEntry;
-    response.send(dataMain);
+    projectData = newEntry;
+    response.send(projectData);
 })
+
+
+
+
+// app.get('/api', function (request, response) {
+//     response.send({key: application_key});
+// })
+
+// app.get('/all', sendData);
+
+// function sendData (request, response) {
+//     response.send(dataMain);
+// }
+
+// app.post('/addText', function (request, response) {
+//     let newEntry = {
+//         agreement: request.body.agreement,
+//         subjectivity: request.body.subjectivity
+//     }
+//     dataMain = newEntry;
+//     response.send(dataMain);
+// })
