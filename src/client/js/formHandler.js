@@ -30,15 +30,13 @@ function handleSubmit(event) {
         }
     }
 
-    console.log("User input posted to the server");
+    // console.log("User input posted to the server");
 
     postData('/userInput', {
         userInput: formText
     })
 
     
-    
-
     const updateUI = async () => {
         const request = await fetch('/all');
         try {

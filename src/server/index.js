@@ -6,6 +6,7 @@ const express = require('express')
 const mockAPIResponse = require('./mockAPI.js');
 const { fileURLToPath } = require('url');
 const text = require('body-parser');
+const { post } = require('jquery');
 
 const app = express()
 
@@ -34,7 +35,7 @@ app.get('/test', function (request, response) {
 // API work below
 
 // Empty JS object
-let newInput = {};
+// let newInput = {};
 let projectData = {};
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
 
@@ -42,28 +43,35 @@ const application_key = process.env.API_KEY;
 
 // Posting user response from client to server
 app.post('/userInput', function (request, response) {
-    newInput = {
+    let newInput = {
         userInput: request.userInput
     }
     response.send(newInput);
 
+    console.log('HI');
     getTextAnalysis(baseURL, application_key, newInput.userInput)
     .then(function(data) {
-    const response = await fetch('/addTextData',{
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-    
-    try {
-        newData = await response.json();
-    }catch(error) {
-        console.log('error', error);
-    }
+        postData('/addTextData', {
+            agreement: data.agreement
+        })
+    })
 
+    const postData = async (url = '', data = {}) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        try {
+            const newData = await response.json();
+        }catch(error) {
+            console.log('error', error);
+        }
+    }
 })
 
 
@@ -71,8 +79,8 @@ const getTextAnalysis = async (baseURL, apiKey, input) => {
 
     const response = await fetch(baseURL+apiKey+'&of='+input);
     try {
-        const newText = response.json();
-        return newText;
+        const newData = response.json();
+        return newData;
     }catch(error) {
         console.log('ERROR', error);
     }
