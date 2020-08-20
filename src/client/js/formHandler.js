@@ -1,72 +1,18 @@
-import { response } from "express";
+// import { response } from "express";
 
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
 let apiKey = {};
 
 function handleSubmit(event) {
+
+    console.log("::: Form Submitted :::")
     event.preventDefault()
 
     let formText = document.getElementById('text-entry').value;
 
-    postData('/userInput', {
-        userInput: formText
-    })
-
-    
-
-
-
-
-
-
-    
-
-    console.log("::: Form Submitted :::")
-
-    getApiKey()
-    .then(function(data){
-        apiKey = data.key;
-    })
-
-    const getApiKey = async () => {
-        // Getting API key from server
-        const request = await fetch('/api');
-        try {
-            const data = await request.json();
-            console.log(data);
-            return data;
-        }catch(error) {
-            console.log('ERROR', error);
-        }
-    }
-
-    getTextAnalysis(baseURL, apiKey, formText)
-    .then(function(data) {
-        postData('/addText', {
-            agreement: data.agreement,
-            sub: data.subjectivity
-        })
-    })
-    .then(function() {
-        updateUI();
-    })
-    
-
-
-    // API Call
-    const getTextAnalysis = async (baseURL, apiKey, input) => {
-
-        const response = await fetch(baseURL+apiKey+'&of='+input);
-        try {
-            const textData = response.json();
-            return textData;
-        }catch(error) {
-            console.log('ERROR', error);
-        }
-    }
-
     // POST request to server
     const postData = async (url = '', data = {}) => {
+        console.log("Usscsdcdc");
 
         const response = await fetch(url, {
             method: 'POST',
@@ -80,9 +26,18 @@ function handleSubmit(event) {
         try {
             const newData = await response.json();
         }catch(error) {
-            console.log('error', error);
+            console.log('error', error)
         }
     }
+
+    console.log("User input posted to the server");
+
+    postData('/userInput', {
+        userInput: formText
+    })
+
+    
+    
 
     const updateUI = async () => {
         const request = await fetch('/all');

@@ -45,12 +45,10 @@ app.post('/userInput', function (request, response) {
     newInput = {
         userInput: request.userInput
     }
-})
+    response.send(newInput);
 
-
-
-getTextAnalysis(baseURL, application_key, newInput.userInput)
-.then(function(data) {
+    getTextAnalysis(baseURL, application_key, newInput.userInput)
+    .then(function(data) {
     const response = await fetch('/addTextData',{
         method: 'POST',
         credentials: 'same-origin',
@@ -59,16 +57,19 @@ getTextAnalysis(baseURL, application_key, newInput.userInput)
         },
         body: JSON.stringify(data),
     });
+    
     try {
         newData = await response.json();
     }catch(error) {
         console.log('error', error);
     }
+
 })
+
 
 const getTextAnalysis = async (baseURL, apiKey, input) => {
 
-    const response = await fetch(baseURL+apiKey+'&of'+input);
+    const response = await fetch(baseURL+apiKey+'&of='+input);
     try {
         const newText = response.json();
         return newText;
@@ -86,6 +87,11 @@ app.post('/addTextData', function (request, response) {
     response.send(projectData);
 })
 
+app.get('/all', function (request, response) {
+    response.send(projectData);
+    console.log('Reponse Sent');
+})
+
 
 
 
@@ -93,17 +99,3 @@ app.post('/addTextData', function (request, response) {
 //     response.send({key: application_key});
 // })
 
-// app.get('/all', sendData);
-
-// function sendData (request, response) {
-//     response.send(dataMain);
-// }
-
-// app.post('/addText', function (request, response) {
-//     let newEntry = {
-//         agreement: request.body.agreement,
-//         subjectivity: request.body.subjectivity
-//     }
-//     dataMain = newEntry;
-//     response.send(dataMain);
-// })

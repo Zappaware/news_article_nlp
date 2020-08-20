@@ -9,8 +9,8 @@ module.exports = {
     entry: './src/client/index.js',
     mode: 'development',
     devtool: 'source-map',
-    stats: 'verbose',
-    target: 'node',
+    // stats: 'verbose',
+    // target: 'node',
     optimization: { 
         minimizer: [new OptimizeCssAssetsPlugin({})],
     },
