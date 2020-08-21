@@ -18,6 +18,15 @@ module.exports = {
         libraryTarget: 'var',
         library: 'Client'
     },
+    // devServer: {
+    //     host: 'localhost',
+    //     localhost: 8080,
+    //     proxy: {
+    //         context: () => true,
+    //         target: "http://localhost:8081",
+    //         secure: false
+    //     }
+    // },
     module: {
         rules: [
             {

@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
-dotenv.config({path:'../../to/file.env'});
-// dotenv.config();
+dotenv.config();
+
 
 var path = require('path')
 const express = require('express')
@@ -41,41 +41,44 @@ app.get('/test', function (request, response) {
 let projectData = {};
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
 
-const apiKey = process.env.API_KEY;
+let apiKey = process.env.API_KEY;
 
 // Posting user response from client to server
 app.post('/userInput', function (request, response) {
 
-    console.log(request);
+    // console.log(request);
 
     let userInput = request.body.userInput;
     response.send('POST RECEIVED');
 
     console.log('User Input: ' + userInput);
     console.log('API KEY: ' + apiKey);
-    // getTextAnalysis(baseURL, application_key, userInput)
-    // .then(function(data) {
-    //     postData('/addTextData', {
-    //         agreement: data.agreement
-    //     })
-    // })
+    console.log(baseURL+apiKey+'&of='+userInput);
 
-    // const postData = async (url = '', data = {}) => {
-    //     const response = await fetch(url, {
-    //         method: 'POST',
-    //         credentials: 'same-origin',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data),
-    //     });
 
-    //     try {
-    //         const newData = await response.json();
-    //     }catch(error) {
-    //         console.log('error', error);
-    //     }
-    // }
+    getTextAnalysis(baseURL, apiKey, userInput)
+    .then(function(data) {
+        postData('/addTextData', {
+            agreement: data.agreement
+        })
+    })
+
+    const postData = async (url = '', data = {}) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        try {
+            const newData = await response.json();
+        }catch(error) {
+            console.log('error', error);
+        }
+    }
 })
 
 

@@ -34,7 +34,7 @@ function handleSubmit(event) {
 
     // console.log("User input posted to the server");
 
-    postData('/userInput', {
+    postData('http://localhost:8081/userInput', {
         userInput: formText
     })
 
