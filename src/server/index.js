@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path:'../../to/file.env'});
+// dotenv.config();
 
 var path = require('path')
 const express = require('express')
@@ -7,12 +8,13 @@ const mockAPIResponse = require('./mockAPI.js');
 const { fileURLToPath } = require('url');
 const text = require('body-parser');
 const { post } = require('jquery');
-
+// const cors = require('cors');
 const app = express()
 
 app.use(express.static('dist'))
 app.use(text.urlencoded({ extended: false }))
 app.use(text.json())
+// app.use(cors);
 
 console.log(__dirname)
 
@@ -39,39 +41,41 @@ app.get('/test', function (request, response) {
 let projectData = {};
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
 
-const application_key = process.env.API_KEY;
+const apiKey = process.env.API_KEY;
 
 // Posting user response from client to server
 app.post('/userInput', function (request, response) {
-    let newInput = {
-        userInput: request.userInput
-    }
-    response.send(newInput);
 
-    console.log('HI');
-    getTextAnalysis(baseURL, application_key, newInput.userInput)
-    .then(function(data) {
-        postData('/addTextData', {
-            agreement: data.agreement
-        })
-    })
+    console.log(request);
 
-    const postData = async (url = '', data = {}) => {
-        const response = await fetch(url, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+    let userInput = request.body.userInput;
+    response.send('POST RECEIVED');
 
-        try {
-            const newData = await response.json();
-        }catch(error) {
-            console.log('error', error);
-        }
-    }
+    console.log('User Input: ' + userInput);
+    console.log('API KEY: ' + apiKey);
+    // getTextAnalysis(baseURL, application_key, userInput)
+    // .then(function(data) {
+    //     postData('/addTextData', {
+    //         agreement: data.agreement
+    //     })
+    // })
+
+    // const postData = async (url = '', data = {}) => {
+    //     const response = await fetch(url, {
+    //         method: 'POST',
+    //         credentials: 'same-origin',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     try {
+    //         const newData = await response.json();
+    //     }catch(error) {
+    //         console.log('error', error);
+    //     }
+    // }
 })
 
 

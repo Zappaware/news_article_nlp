@@ -12,19 +12,21 @@ function handleSubmit(event) {
 
     // POST request to server
     const postData = async (url = '', data = {}) => {
-        console.log("Usscsdcdc");
 
-        const response = await fetch(url, {
+        const options = {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        });
+        }
+
+        const response = await fetch(url, options);
 
         try {
-            const newData = await response.json();
+            const data = await response.json();
+            console.log(data);
         }catch(error) {
             console.log('error', error)
         }
