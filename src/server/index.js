@@ -39,7 +39,7 @@ app.get('/test', function (request, response) {
 // Empty JS object
 // let newInput = {};
 let projectData = {};
-let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
+let baseURL = 'https://api.meaningcloud.com/sentiment-2.1?key=';
 
 let apiKey = process.env.API_KEY;
 
@@ -53,7 +53,7 @@ app.post('/userInput', function (request, response) {
 
     console.log('User Input: ' + userInput);
     console.log('API KEY: ' + apiKey);
-    console.log(baseURL+apiKey+'&of='+userInput);
+    console.log(baseURL+apiKey+'&of=json&txt='+userInput+'.&lang=en');
 
 
     getTextAnalysis(baseURL, apiKey, userInput)
@@ -84,7 +84,8 @@ app.post('/userInput', function (request, response) {
 
 const getTextAnalysis = async (baseURL, apiKey, input) => {
 
-    const response = await fetch(baseURL+apiKey+'&of='+input);
+    // This fetch is currently where this are going wrong - invalid URL
+    const response = await fetch(baseURL+apiKey+'&of=json&txt='+input+'.&lang=en');
     try {
         const newData = response.json();
         return newData;
