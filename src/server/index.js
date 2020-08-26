@@ -8,8 +8,9 @@ const mockAPIResponse = require('./mockAPI.js');
 const { fileURLToPath } = require('url');
 const text = require('body-parser');
 const { post } = require('jquery');
+const fetch = require('node-fetch');
 // const cors = require('cors');
-const app = express()
+const app = express();
 
 app.use(express.static('dist'))
 app.use(text.urlencoded({ extended: false }))
@@ -48,15 +49,18 @@ app.post('/userInput', function (request, response) {
 
     // console.log(request);
 
-    let userInput = request.body.userInput;
+    let userInput = {
+        input: request.body.userInput,
+        lang: 'en'
+    }
     response.send('POST RECEIVED');
 
-    console.log('User Input: ' + userInput);
+    console.log('User Input: ' + userInput.input);
     console.log('API KEY: ' + apiKey);
-    console.log(baseURL+apiKey+'&of=json&txt='+userInput+'.&lang=en');
+    console.log(baseURL+apiKey+'&of=json&txt='+userInput.input+'.&lang=en');
 
 
-    getTextAnalysis(baseURL, apiKey, userInput)
+    getTextAnalysis(baseURL, apiKey, userInput.input)
     .then(function(data) {
         postData('/addTextData', {
             agreement: data.agreement
@@ -83,6 +87,7 @@ app.post('/userInput', function (request, response) {
 
 
 const getTextAnalysis = async (baseURL, apiKey, input) => {
+    console.log('FETCH URL: '+baseURL+apiKey+'&of=json&txt='+input+'.&lang=en');
 
     // This fetch is currently where this are going wrong - invalid URL
     const response = await fetch(baseURL+apiKey+'&of=json&txt='+input+'.&lang=en');
@@ -105,7 +110,7 @@ app.post('/addTextData', function (request, response) {
 
 app.get('/all', function (request, response) {
     response.send(projectData);
-    console.log('Reponse Sent');
+    console.log('Response Sent');
 })
 
 

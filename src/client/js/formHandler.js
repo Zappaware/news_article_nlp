@@ -1,7 +1,5 @@
 // import { response } from "express";
 
-let baseURL = 'https://api.meaningcloud.com/sentiment-2.1=';
-let apiKey = {};
 
 function handleSubmit(event) {
 
