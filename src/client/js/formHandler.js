@@ -7,6 +7,7 @@ function handleSubmit(event) {
     event.preventDefault()
 
     let formText = document.getElementById('text-entry').value;
+    document.getElementById('user_input').innerHTML = formText;
 
     // POST request to server
     const postData = async (url = '', data = {}) => {
@@ -38,7 +39,7 @@ function handleSubmit(event) {
 
     setTimeout(function () {
         updateUI();
-    }, 5000);
+    }, 4000);
 
     const updateUI = async () => {
         const request = await fetch('/all');
