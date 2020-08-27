@@ -30,14 +30,11 @@ app.listen(8081, function () {
 })
 
 
-// API work below
-
 let baseURL = 'https://api.meaningcloud.com/sentiment-2.1?key=';
-
 let apiKey = process.env.API_KEY;
 
 // Posting user response from client to server
-app.post('/userInput', function (request, response) {
+app.post('/api', function (request, response) {
 
     let userInput = {
         input: request.body.userInput,

@@ -7,8 +7,9 @@ function handleSubmit(event) {
     event.preventDefault()
 
     let formText = document.getElementById('text-entry').value;
+    console.log(formText);
     document.getElementById('results').innerHTML = '';
-    document.getElementById('user_input').innerHTML = formText;
+    document.getElementById('user_input').textContent = formText;
 
     // POST request to server
     const postData = async (url = '', data = {}) => {
@@ -25,13 +26,15 @@ function handleSubmit(event) {
         const response = await fetch(url, options);
         try {
             const data = await response.json();
-            document.getElementById('results').innerHTML = data.agreement;
+            document.getElementById('result1').innerHTML = data.agreement;
+            document.getElementById('result2').innerHTML = data.subjectivity;
+            document.getElementById('result3').innerHTML = data.confidence;
         }catch(error) {
             console.log('error', error)
         }
     }
 
-    postData('http://localhost:8081/userInput', {
+    postData('http://localhost:8081/api', {
         userInput: formText
     })
 }

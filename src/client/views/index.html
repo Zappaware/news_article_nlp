@@ -32,6 +32,10 @@
             </div>
         </div>
 
+        <section>
+            <h1 id="title"> Evaluate Text with Natural Language Processing</h1>
+        </section>
+
         <main>
             <section>
                 <form onsubmit="return Client.handleSubmit(event)">
@@ -41,14 +45,39 @@
             </section>
 
             <section>
-                <p>Your input:</p>
-                <div id="user_input"></div>
+                <div class="container-fluid">
+                    <h1 class="text_title">Text Input</h1>
+                    <br>
+                    <div class="row text_form">
+                        <div class="col-12">
+                            <p class="added_content" id="user_input"></p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section>
-                <strong>Form Results:</strong>
-                <div id="results"></div>
+                <div class="container-fluid">
+                    <h1 class="text_title">NLP Results</h1>
+                    <br>
+                    <div class="row text_form">
+                        <div class="col-12">
+                            <h1 class="res_title">Agreement:</h1>
+                            <p class="added_content" id="result1"></p>
+                            <h1 class="res_title">Subjectivity</h1>
+                            <p class="added_content" id="result2"></p>
+                            <h1 class="res_title">Confidence</h1>
+                            <p class="added_content" id="result3"></p>
+                        </div>
+                    </div>
+                </div>
             </section>
+
+            <!-- <section>
+                <strong>Form Results:</strong>
+                <br>
+                <div id="results"></div>
+            </section> -->
         </main>
 
         <footer>

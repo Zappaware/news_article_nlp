@@ -1,3 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500|Roboto:400,500');
+
+/*=================
+    01.BASIC
+===================*/
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+    padding-top: 1rem;
+}
+
+p {
+    text-align: center;
+}
+
+#title {
+    font-size: 2rem;
+}
+
 .btn {
     display: inline-block;
     font-weight: 400;
@@ -46,4 +75,34 @@
 
 .container-fluid {
     padding-left: 0;
+}
+
+.text_form {
+    border: 1px solid #707070;
+    border-radius: 10px;
+    min-height: 3rem;
+    box-shadow: 2px 5px 2px #d4d4d4;
+}
+
+.added_content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+// .text_title {
+//     font-size: 1.5rem;
+//     text-align: center;
+// }
+
+h1 {
+    &.text_title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    &.res_title {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
 }
