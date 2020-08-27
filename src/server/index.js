@@ -96,8 +96,6 @@ const getTextAnalysis = async (baseURL, apiKey, input) => {
     const response = await fetch(baseURL+apiKey+'&of=json&txt='+input+'.&lang=en');
     try {
         const newData = await response.json();
-        console.log(newData);
-        console.log(newData.agreement);
         return newData;
     }catch(error) {
         console.log('ERROR', error);
@@ -115,7 +113,7 @@ app.post('/addTextData', function (request, response) {
 })
 
 app.get('/all', function (request, response) {
-    console.log('BEING SENT TO CLIENT ' + projectData.agreement);
+    console.log('BEING SENT TO CLIENT ' + projectData);
     response.send(projectData);
     console.log('Response Sent');
 })
