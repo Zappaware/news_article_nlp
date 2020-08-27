@@ -30,9 +30,10 @@ app.listen(8081, function () {
 })
 
 
-app.get('/test', function (request, response) {
-    response.send(mockAPIResponse);
-})
+// app.get('/test', function (request, response) {
+//     response.send(mockAPIResponse);
+// })
+
 
 
 // API work below
@@ -62,9 +63,10 @@ app.post('/userInput', function (request, response) {
 
     getTextAnalysis(baseURL, apiKey, userInput.input)
     .then(function(data) {
-        postData('/addTextData', {
+        postData('http://localhost:8081/addTextData', {
             agreement: data.agreement
         })
+        // console.log(data.agreement);
     })
 
     const postData = async (url = '', data = {}) => {
@@ -79,6 +81,7 @@ app.post('/userInput', function (request, response) {
 
         try {
             const newData = await response.json();
+            console.log('NEW DATA: ' + newData.agreement);
         }catch(error) {
             console.log('error', error);
         }
@@ -92,7 +95,9 @@ const getTextAnalysis = async (baseURL, apiKey, input) => {
     // This fetch is currently where this are going wrong - invalid URL
     const response = await fetch(baseURL+apiKey+'&of=json&txt='+input+'.&lang=en');
     try {
-        const newData = response.json();
+        const newData = await response.json();
+        console.log(newData);
+        console.log(newData.agreement);
         return newData;
     }catch(error) {
         console.log('ERROR', error);
@@ -104,11 +109,13 @@ app.post('/addTextData', function (request, response) {
     let newEntry = {
         agreement: request.body.agreement,
     }
+    console.log('NEW ENTRY: ' + newEntry.agreement);
     projectData = newEntry;
     response.send(projectData);
 })
 
 app.get('/all', function (request, response) {
+    console.log('BEING SENT TO CLIENT ' + projectData.agreement);
     response.send(projectData);
     console.log('Response Sent');
 })

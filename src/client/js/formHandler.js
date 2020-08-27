@@ -34,6 +34,8 @@ function handleSubmit(event) {
 
     postData('http://localhost:8081/userInput', {
         userInput: formText
+    }).then(function() {
+        updateUI();
     })
 
     
