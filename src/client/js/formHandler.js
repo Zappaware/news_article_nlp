@@ -8,7 +8,9 @@ function handleSubmit(event) {
 
     let formText = document.getElementById('text-entry').value;
     console.log(formText);
-    document.getElementById('results').innerHTML = '';
+    document.getElementById('result1').innerHTML = '';
+    document.getElementById('result2').innerHTML = '';
+    document.getElementById('result3').innerHTML = '';
     document.getElementById('user_input').textContent = formText;
 
     // POST request to server
